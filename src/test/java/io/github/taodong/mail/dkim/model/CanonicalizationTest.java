@@ -11,8 +11,9 @@ import static org.junit.jupiter.params.provider.Arguments.argumentSet;
 
 class CanonicalizationTest {
 
+    @SuppressWarnings("unused")
     private static final List<Arguments> bodyTestCases = List.of(
-            argumentSet("empty body", Canonicalization.SIMPLE, (String)null, "\r\n")
+            argumentSet("empty body", Canonicalization.SIMPLE, null, "\r\n")
     );
 
     @ParameterizedTest
