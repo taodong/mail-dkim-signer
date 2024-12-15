@@ -17,7 +17,7 @@ public enum Canonicalization {
     SIMPLE("simple",
             body -> {
                     // if body is empty, CRLF is returned
-                    if (StringUtils.isBlank(body)) {
+                    if (StringUtils.isEmpty(body)) {
                         return "\r\n";
                     }
 
@@ -39,7 +39,7 @@ public enum Canonicalization {
             body ->  {
 
                 // if there body is blank, an empty body is returned
-                if (StringUtils.isBlank(body)) {
+                if (StringUtils.isEmpty(body)) {
                     return "";
                 }
 
