@@ -1,10 +1,13 @@
 # Under Development!!!
 
 # mail-dkim-signer
+[![CI](https://github.com/taodong/mail-dkim-signer/actions/workflows/ci.yml/badge.svg)](https://github.com/taodong/mail-dkim-signer/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/taodong/mail-dkim-signer/graph/badge.svg?token=ME6HTXFS7A)](https://codecov.io/gh/taodong/mail-dkim-signer)
+
 A simple Java email dkim signer
 
 ## Purpose
-I created this project because I failed to integrate [java-utils-mail-dkim](https://github.com/simple-java-mail/java-utils-mail-dkim) 
+I created this tool because I failed to integrate [java-utils-mail-dkim](https://github.com/simple-java-mail/java-utils-mail-dkim) 
 into my project. It seems there are some compatibility issues between angus-mail and jarkata-mail/spring-mail
 which I'm too lazy to investigate.
 
