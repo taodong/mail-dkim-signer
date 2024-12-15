@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Build
+name: CI
 
 on:
   push:
@@ -33,5 +33,6 @@ jobs:
         run: mvn -B test
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          slug: taodong/mail-dkim-signer
