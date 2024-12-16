@@ -1,14 +1,13 @@
 package io.github.taodong.mail.dkim.model;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 
 public class DkimSignature {
     private static final String TAG_DELIMITER = "; ";
     private static final String TAG_VALUE_DELIMITER = "=";
 
-    private final Map<HeaderTags, String> headerTags = new HashMap<>();
+    private final EnumMap<HeaderTags, String> headerTags = new EnumMap<>(HeaderTags.class);
 
     public DkimSignature() {
         this.headerTags.put(HeaderTags.VERSION, "1");

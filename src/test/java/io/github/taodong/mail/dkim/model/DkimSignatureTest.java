@@ -23,7 +23,7 @@ class DkimSignatureTest {
     }
 
     @Test
-    void getValue_validateFailed() throws DkimSigningException {
+    void getValue_validateFailed() {
         DkimSignature signature = new DkimSignature();
         signature.addTagValue(HeaderTags.DOMAIN, "duotail.com");
         signature.addTagValue(HeaderTags.CANONICALIZATION, "relaxed/simple");

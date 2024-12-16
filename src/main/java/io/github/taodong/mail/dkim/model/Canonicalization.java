@@ -3,7 +3,7 @@ package io.github.taodong.mail.dkim.model;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 import java.util.function.UnaryOperator;
 
 /**
@@ -72,9 +72,9 @@ public enum Canonicalization {
 
     private final String name;
     private final UnaryOperator<String> bodyOperator;
-    private final BiFunction<String, String, String> headerOperator;
+    private final BinaryOperator<String> headerOperator;
 
-    Canonicalization(String name, UnaryOperator<String> bodyOperator, BiFunction<String, String, String> headerOperator) {
+    Canonicalization(String name, UnaryOperator<String> bodyOperator, BinaryOperator<String> headerOperator) {
         this.name = name;
         this.bodyOperator = bodyOperator;
         this.headerOperator = headerOperator;
