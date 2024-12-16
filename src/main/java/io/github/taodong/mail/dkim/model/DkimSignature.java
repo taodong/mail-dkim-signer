@@ -10,6 +10,11 @@ public class DkimSignature {
 
     private final Map<HeaderTags, String> headerTags = new HashMap<>();
 
+    public DkimSignature() {
+        this.headerTags.put(HeaderTags.VERSION, "1");
+        this.headerTags.put(HeaderTags.ALGORITHM, "rsa-sha256");
+    }
+
     public void addTagValue(HeaderTags tag, String value) {
         headerTags.put(tag, value);
     }

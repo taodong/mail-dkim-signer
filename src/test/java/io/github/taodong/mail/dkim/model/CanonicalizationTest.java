@@ -8,6 +8,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.argumentSet;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class CanonicalizationTest {
 
@@ -33,6 +34,34 @@ class CanonicalizationTest {
     @FieldSource("bodyTestCases")
     void testBodyOperator(Canonicalization canonicalization, String input, String expected) {
         assertEquals(expected, canonicalization.getBodyOperator().apply(input));
+    }
+
+    @SuppressWarnings("unused")
+    private static final List<Arguments> nameTestCases = List.of(
+       arguments(Canonicalization.SIMPLE, "simple"),
+       arguments(Canonicalization.RELAXED, "relaxed")
+    );
+
+    @ParameterizedTest
+    @FieldSource("nameTestCases")
+    void testName(Canonicalization canonicalization, String expected) {
+        assertEquals(expected, canonicalization.getName());
+    }
+
+    @SuppressWarnings("unused")
+    static List<Arguments> headerTestCases = List.of(
+            arguments(Canonicalization.SIMPLE, "Subject", "test", "subject:test"),
+            arguments(Canonicalization.SIMPLE, "Subject", "test subject", "subject:test subject"),
+            arguments(Canonicalization.SIMPLE, "Subject", "test  subject", "subject:test subject"),
+            arguments(Canonicalization.RELAXED, "Subject", "test", "Subject:test"),
+            arguments(Canonicalization.RELAXED, "Subject", "test Subject", "Subject:test Subject"),
+            arguments(Canonicalization.RELAXED, "Subject", "test  Subject", "Subject:test  Subject")
+    );
+
+    @ParameterizedTest
+    @FieldSource("headerTestCases")
+    void testHeaderOperator(Canonicalization canonicalization, String header, String value, String expected) {
+        assertEquals(expected, canonicalization.getHeaderOperator().apply(header, value));
     }
 
 }
