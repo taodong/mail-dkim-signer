@@ -2,6 +2,7 @@
 
 # mail-dkim-signer
 [![CI](https://github.com/taodong/mail-dkim-signer/actions/workflows/ci.yml/badge.svg)](https://github.com/taodong/mail-dkim-signer/actions/workflows/ci.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=taodong_mail-dkim-signer&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=taodong_mail-dkim-signer)
 [![codecov](https://codecov.io/gh/taodong/mail-dkim-signer/graph/badge.svg?token=ME6HTXFS7A)](https://codecov.io/gh/taodong/mail-dkim-signer)
 
 A simple Java email dkim signer
