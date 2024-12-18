@@ -9,8 +9,14 @@ import org.junit.jupiter.params.provider.FieldSource;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
 
+import static io.github.taodong.mail.dkim.model.StandardMessageHeader.CC;
+import static io.github.taodong.mail.dkim.model.StandardMessageHeader.FROM;
+import static io.github.taodong.mail.dkim.model.StandardMessageHeader.LIST_UNSUBSCRIBE;
+import static io.github.taodong.mail.dkim.model.StandardMessageHeader.LIST_UNSUBSCRIBE_POST;
+import static io.github.taodong.mail.dkim.model.StandardMessageHeader.MIME_VERSION;
 import static io.github.taodong.mail.dkim.model.StandardMessageHeader.TO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -53,5 +59,23 @@ class DkimMimeMessageHelperTest {
         assertTrue(result.get(1).required());
         assertFalse(result.get(11).required());
         assertTrue(result.get(12).required());
+    }
+
+    @Test
+    void getDkimSignHeaders_removeDefaultHeaders() {
+        var ignoredHeader = new DkimSignHeader("From", false);
+        var updatedHeader = new DkimSignHeader(TO.getKey(), true);
+        var customHeaders = List.of(ignoredHeader, updatedHeader,
+                new DkimSignHeader("Custom-Header1"),
+                new DkimSignHeader("Customer-Header2", true));
+        var ignoredHeaders = Set.of(FROM.getKey(), CC.getKey(), LIST_UNSUBSCRIBE.getKey(), LIST_UNSUBSCRIBE_POST.getKey(), MIME_VERSION.getKey());
+        var result = dkimMimeMessageHelper.getDkimSignHeaders(customHeaders, ignoredHeaders);
+        assertEquals(9, result.size());
+        assertEquals(ignoredHeader.name(), result.get(0).name());
+        assertTrue(result.get(0).required());
+        assertEquals(updatedHeader.name(), result.get(1).name());
+        assertTrue(result.get(1).required());
+        assertFalse(result.get(7).required());
+        assertTrue(result.get(8).required());
     }
 }

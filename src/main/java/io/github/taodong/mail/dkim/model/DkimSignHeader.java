@@ -5,6 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+/**
+ * The header to be signed in DKIM signature. Two headers are considered equal if they have the same name.
+ * @param name - the header name, case-sensitive
+ * @param required - the signer will fail if a required header is not present in the message
+ */
 public record DkimSignHeader(@NotBlank String name, boolean required) {
 
     public DkimSignHeader(@NotBlank String name) {

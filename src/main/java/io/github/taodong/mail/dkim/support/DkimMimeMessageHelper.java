@@ -6,7 +6,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static io.github.taodong.mail.dkim.model.StandardMessageHeader.CC;
 import static io.github.taodong.mail.dkim.model.StandardMessageHeader.CONTENT_TYPE;
@@ -36,7 +38,32 @@ public class DkimMimeMessageHelper {
     );
 
 
+    /**
+     * Get the headers to be signed. All the header name are case-sensitive.
+     * The default headers used are: From:To:Subject:Date:Cc:Content-Type:Reply-To:Message-ID:List-Unsubscribe:List-Unsubscribe-Post:MIME-Version
+     * @param customHeaders - any extra headers to be signed other than the default headers, if any header included having the same name as the default one, the default header will be replaced
+     * @return the headers to be signed
+     */
     public List<DkimSignHeader> getDkimSignHeaders(List<DkimSignHeader> customHeaders) {
+
+        return getDkimSignHeaders(customHeaders, null);
+    }
+
+    /**
+     * Get the headers to be signed. All the header name are case-sensitive.
+     * The default headers used are: From:To:Subject:Date:Cc:Content-Type:Reply-To:Message-ID:List-Unsubscribe:List-Unsubscribe-Post:MIME-Version
+     * @param customHeaders - any extra headers to be signed other than the default headers, if any header included having the same name as the default one, the default header will be replaced
+     * @param ignoredHeaders - any headers to be ignored
+     * @return the headers to be signed
+     */
+    public List<DkimSignHeader> getDkimSignHeaders(List<DkimSignHeader> customHeaders, Set<String> ignoredHeaders) {
+        var headers = combineCustomerHeaders(customHeaders);
+        removeIgnoredHeaders(headers, ignoredHeaders);
+
+        return headers;
+    }
+
+    private List<DkimSignHeader> combineCustomerHeaders(List<DkimSignHeader> customHeaders) {
         List<DkimSignHeader> headers = new ArrayList<>(DEFAULT_SIGN_HEADERS);
 
         if (CollectionUtils.isNotEmpty(customHeaders)) {
@@ -48,6 +75,14 @@ public class DkimMimeMessageHelper {
         }
 
         return headers;
+    }
+
+    private void removeIgnoredHeaders(List<DkimSignHeader> headers, Set<String> ignoredHeaders) {
+        if (CollectionUtils.isNotEmpty(ignoredHeaders)) {
+            var mutableIgnoredHeaders = new HashSet<>(ignoredHeaders);
+            mutableIgnoredHeaders.removeIf(h -> StringUtils.equals(h, FROM.getKey()));
+            headers.removeIf(h -> mutableIgnoredHeaders.contains(h.name()));
+        }
     }
 
     private List<DkimSignHeader> reverseDistinct(List<DkimSignHeader> fatList) {

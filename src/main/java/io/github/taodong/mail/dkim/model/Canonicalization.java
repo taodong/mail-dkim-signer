@@ -70,12 +70,12 @@ public enum Canonicalization {
             (header, value) -> header + ":" + value
     );
 
-    private final String name;
+    private final String type;
     private final UnaryOperator<String> bodyOperator;
     private final BinaryOperator<String> headerOperator;
 
-    Canonicalization(String name, UnaryOperator<String> bodyOperator, BinaryOperator<String> headerOperator) {
-        this.name = name;
+    Canonicalization(String type, UnaryOperator<String> bodyOperator, BinaryOperator<String> headerOperator) {
+        this.type = type;
         this.bodyOperator = bodyOperator;
         this.headerOperator = headerOperator;
     }

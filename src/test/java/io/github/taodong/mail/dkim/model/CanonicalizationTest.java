@@ -37,15 +37,15 @@ class CanonicalizationTest {
     }
 
     @SuppressWarnings("unused")
-    private static final List<Arguments> nameTestCases = List.of(
+    private static final List<Arguments> typeTestCases = List.of(
        arguments(Canonicalization.SIMPLE, "simple"),
        arguments(Canonicalization.RELAXED, "relaxed")
     );
 
     @ParameterizedTest
-    @FieldSource("nameTestCases")
+    @FieldSource("typeTestCases")
     void testName(Canonicalization canonicalization, String expected) {
-        assertEquals(expected, canonicalization.getName());
+        assertEquals(expected, canonicalization.getType());
     }
 
     @SuppressWarnings("unused")
