@@ -3,7 +3,7 @@ package io.github.taodong.mail.dkim.model;
 import lombok.Getter;
 
 @Getter
-public enum HeaderTags {
+public enum HeaderTag {
     VERSION("v"),
     ALGORITHM("a"),
     DOMAIN("d"),
@@ -17,7 +17,7 @@ public enum HeaderTags {
 
     private final String tagName;
 
-    HeaderTags(String tagName) {
+    HeaderTag(String tagName) {
         this.tagName = tagName;
     }
 }

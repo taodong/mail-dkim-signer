@@ -4,7 +4,7 @@ import io.github.taodong.mail.dkim.model.Canonicalization;
 import io.github.taodong.mail.dkim.model.DkimSignHeader;
 import io.github.taodong.mail.dkim.model.DkimSignature;
 import io.github.taodong.mail.dkim.model.DkimSigningException;
-import io.github.taodong.mail.dkim.model.HeaderTags;
+import io.github.taodong.mail.dkim.model.HeaderTag;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeUtility;
@@ -15,9 +15,13 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.Signature;
+import java.security.SignatureException;
 import java.security.interfaces.RSAPrivateKey;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -32,11 +36,11 @@ public class DkimSigningService {
         identity = normalizeString(identity);
         validateParameters(domain, identity);
         var signature = new DkimSignature();
-        signature.addTagValue(HeaderTags.DOMAIN, domain);
-        signature.addTagValue(HeaderTags.SELECTOR, selector);
-        signature.addTagValue(HeaderTags.USERNAME, identity);
-        signature.addTagValue(HeaderTags.CANONICALIZATION, generateCanonicalizationValue(headerCanonicalization, bodyCanonicalization));
-        signature.addTagValue(HeaderTags.BODY_HASH, hashBody(message, bodyCanonicalization));
+        signature.addTagValue(HeaderTag.DOMAIN, domain);
+        signature.addTagValue(HeaderTag.SELECTOR, selector);
+        signature.addTagValue(HeaderTag.USERNAME, identity); // `i` tag should be a `dkim-quoted-printable` string, my use cases have no special characters, leave it as it is
+        signature.addTagValue(HeaderTag.CANONICALIZATION, generateCanonicalizationValue(headerCanonicalization, bodyCanonicalization));
+        signature.addTagValue(HeaderTag.BODY_HASH, hashBody(message, bodyCanonicalization));
         signHeaders(signature, message, headers, headerCanonicalization, dkimPrivateKey);
         return signature.getValue();
     }
@@ -47,8 +51,8 @@ public class DkimSigningService {
             canonicalization = Canonicalization.SIMPLE;
         }
 
-        var foundHeaders = new StringBuilder();
-        var headerValues = new StringBuilder();
+        List<String> headerNames = new ArrayList<>();
+        List<String> canonicalHeaders = new ArrayList<>();
 
         for (var header : headers) {
             var headerName = header.name();
@@ -62,14 +66,37 @@ public class DkimSigningService {
                 }
 
                 for (var headerValue : headerValuesArray) {
-                    foundHeaders.append(headerName).append(":");
-                    headerValues.append(headerValue).append("\r\n");
+                    headerNames.add(headerName);
+                    canonicalHeaders.add(canonicalization.getHeaderOperator().apply(headerName, headerValue));
                 }
             } catch (MessagingException e) {
                 throw new DkimSigningException("Failed to get header " + headerName, e);
             }
         }
 
+        var headerTagValue = String.join(":", headerNames);
+        var headerToSign = String.join("\r\n", canonicalHeaders) + "\r\n";
+
+        signature.addTagValue(HeaderTag.HEADERS, headerTagValue);
+
+        var beforeHashValue = signature.getBeforeHashValue();
+        var serializedSignature = beforeHashValue + "; " + HeaderTag.SIGNATURE.getTagName() + "=";
+        var canonicalSignature = canonicalization.getHeaderOperator().apply(DkimSignature.DKIM_SIGNATURE_HEADER, serializedSignature);
+        headerToSign += canonicalSignature;
+
+        signature.addTagValue(HeaderTag.SIGNATURE, createSignatureValue(headerToSign, privateKey));
+    }
+
+    private String createSignatureValue(String headerToSign, RSAPrivateKey privateKey)
+            throws DkimSigningException {
+        try {
+            Signature rsaSignature = Signature.getInstance("SHA256withRSA");
+            rsaSignature.initSign(privateKey);
+            rsaSignature.update(headerToSign.getBytes(StandardCharsets.UTF_8));
+            return base64Encode(rsaSignature.sign());
+        } catch (NoSuchAlgorithmException | InvalidKeyException | SignatureException e) {
+            throw new DkimSigningException("Failed to create signature.", e);
+        }
     }
 
     private String hashBody(MimeMessage message, Canonicalization canonicalization) throws DkimSigningException {
@@ -114,4 +141,5 @@ public class DkimSigningService {
     private String normalizeString(String input) {
         return StringUtils.lowerCase(StringUtils.trim(input));
     }
+
 }
