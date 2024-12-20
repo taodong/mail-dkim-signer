@@ -1,4 +1,4 @@
-package io.github.taodong.mail.dkim.model;
+package io.github.taodong.mail.dkim;
 
 
 import jakarta.validation.constraints.NotBlank;

@@ -1,4 +1,4 @@
-package io.github.taodong.mail.dkim.model;
+package io.github.taodong.mail.dkim;
 
 public class DkimSigningException extends Exception {
     public DkimSigningException(String message) {

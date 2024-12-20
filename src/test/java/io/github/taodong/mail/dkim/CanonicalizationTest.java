@@ -1,4 +1,4 @@
-package io.github.taodong.mail.dkim.model;
+package io.github.taodong.mail.dkim;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

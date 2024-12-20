@@ -1,10 +1,5 @@
-package io.github.taodong.mail.dkim.service;
+package io.github.taodong.mail.dkim;
 
-import io.github.taodong.mail.dkim.model.Canonicalization;
-import io.github.taodong.mail.dkim.model.DkimSignHeader;
-import io.github.taodong.mail.dkim.model.DkimSignature;
-import io.github.taodong.mail.dkim.model.DkimSigningException;
-import io.github.taodong.mail.dkim.model.HeaderTag;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeUtility;

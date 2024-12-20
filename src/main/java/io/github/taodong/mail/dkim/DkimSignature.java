@@ -1,4 +1,4 @@
-package io.github.taodong.mail.dkim.model;
+package io.github.taodong.mail.dkim;
 
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -33,7 +33,7 @@ public class DkimSignature {
         return formStringValue(getTagsWithExclusion(null));
     }
 
-    public String getBeforeHashValue() throws DkimSigningException {
+    String getBeforeHashValue() throws DkimSigningException {
         var tags = getTagsWithExclusion(Set.of(HeaderTag.SIGNATURE));
         return formStringValue(tags);
     }

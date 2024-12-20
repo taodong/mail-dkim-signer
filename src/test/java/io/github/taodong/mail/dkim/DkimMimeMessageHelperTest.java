@@ -1,6 +1,5 @@
-package io.github.taodong.mail.dkim.support;
+package io.github.taodong.mail.dkim;
 
-import io.github.taodong.mail.dkim.model.DkimSignHeader;
 import org.apache.commons.collections4.CollectionUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,12 +11,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import static io.github.taodong.mail.dkim.model.StandardMessageHeader.CC;
-import static io.github.taodong.mail.dkim.model.StandardMessageHeader.FROM;
-import static io.github.taodong.mail.dkim.model.StandardMessageHeader.LIST_UNSUBSCRIBE;
-import static io.github.taodong.mail.dkim.model.StandardMessageHeader.LIST_UNSUBSCRIBE_POST;
-import static io.github.taodong.mail.dkim.model.StandardMessageHeader.MIME_VERSION;
-import static io.github.taodong.mail.dkim.model.StandardMessageHeader.TO;
+import static io.github.taodong.mail.dkim.StandardMessageHeader.CC;
+import static io.github.taodong.mail.dkim.StandardMessageHeader.FROM;
+import static io.github.taodong.mail.dkim.StandardMessageHeader.LIST_UNSUBSCRIBE;
+import static io.github.taodong.mail.dkim.StandardMessageHeader.LIST_UNSUBSCRIBE_POST;
+import static io.github.taodong.mail.dkim.StandardMessageHeader.MIME_VERSION;
+import static io.github.taodong.mail.dkim.StandardMessageHeader.TO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;

@@ -1,6 +1,5 @@
-package io.github.taodong.mail.dkim.support;
+package io.github.taodong.mail.dkim;
 
-import io.github.taodong.mail.dkim.model.DkimSignHeader;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -10,17 +9,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static io.github.taodong.mail.dkim.model.StandardMessageHeader.CC;
-import static io.github.taodong.mail.dkim.model.StandardMessageHeader.CONTENT_TYPE;
-import static io.github.taodong.mail.dkim.model.StandardMessageHeader.DATE;
-import static io.github.taodong.mail.dkim.model.StandardMessageHeader.FROM;
-import static io.github.taodong.mail.dkim.model.StandardMessageHeader.LIST_UNSUBSCRIBE;
-import static io.github.taodong.mail.dkim.model.StandardMessageHeader.LIST_UNSUBSCRIBE_POST;
-import static io.github.taodong.mail.dkim.model.StandardMessageHeader.MESSAGE_ID;
-import static io.github.taodong.mail.dkim.model.StandardMessageHeader.MIME_VERSION;
-import static io.github.taodong.mail.dkim.model.StandardMessageHeader.REPLY_TO;
-import static io.github.taodong.mail.dkim.model.StandardMessageHeader.SUBJECT;
-import static io.github.taodong.mail.dkim.model.StandardMessageHeader.TO;
+import static io.github.taodong.mail.dkim.StandardMessageHeader.CC;
+import static io.github.taodong.mail.dkim.StandardMessageHeader.CONTENT_TYPE;
+import static io.github.taodong.mail.dkim.StandardMessageHeader.DATE;
+import static io.github.taodong.mail.dkim.StandardMessageHeader.FROM;
+import static io.github.taodong.mail.dkim.StandardMessageHeader.LIST_UNSUBSCRIBE;
+import static io.github.taodong.mail.dkim.StandardMessageHeader.LIST_UNSUBSCRIBE_POST;
+import static io.github.taodong.mail.dkim.StandardMessageHeader.MESSAGE_ID;
+import static io.github.taodong.mail.dkim.StandardMessageHeader.MIME_VERSION;
+import static io.github.taodong.mail.dkim.StandardMessageHeader.REPLY_TO;
+import static io.github.taodong.mail.dkim.StandardMessageHeader.SUBJECT;
+import static io.github.taodong.mail.dkim.StandardMessageHeader.TO;
 
 public class DkimMimeMessageHelper {
     static final List<DkimSignHeader> DEFAULT_SIGN_HEADERS = List.of(
