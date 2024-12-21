@@ -29,12 +29,14 @@ public class DkimSignature {
     }
 
     public String getValue() throws DkimSigningException {
-        validateContent4Signing();
+        var tags = getTagsWithExclusion(null);
+        validateContent4Signing(tags);
         return formStringValue(getTagsWithExclusion(null));
     }
 
     String getBeforeHashValue() throws DkimSigningException {
         var tags = getTagsWithExclusion(Set.of(HeaderTag.SIGNATURE));
+        validateContent4Signing(tags);
         return formStringValue(tags);
     }
 
@@ -58,8 +60,8 @@ public class DkimSignature {
                 .orElseThrow(() -> new DkimSigningException("Failed to generate DKIM signature. Please report a bug."));
     }
 
-    private void validateContent4Signing() throws DkimSigningException {
-        var missing = Arrays.stream(HeaderTag.values())
+    private void validateContent4Signing(List<HeaderTag> tags) throws DkimSigningException {
+        var missing = tags.stream()
                 .filter(tag -> !headerTags.containsKey(tag))
                 .map(HeaderTag::getTagName)
                 .reduce((s1, s2) -> s1 + ", " + s2)

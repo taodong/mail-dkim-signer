@@ -47,6 +47,7 @@
         <junit.jupiter.version>5.11.3</junit.jupiter.version>
         <mockito.version>5.14.2</mockito.version>
         <jarkarta.validation.version>3.1.0</jarkarta.validation.version>
+        <eclipse.jakarta.mail.version>2.0.3</eclipse.jakarta.mail.version>
         <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
         <maven.surefire.plugin.version>3.5.2</maven.surefire.plugin.version>
         <maven.gpg.plugin.version>3.2.7</maven.gpg.plugin.version>
@@ -93,6 +94,12 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>5.14.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>${eclipse.jakarta.mail.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

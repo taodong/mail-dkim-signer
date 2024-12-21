@@ -6,6 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.FieldSource;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +20,7 @@ import static io.github.taodong.mail.dkim.StandardMessageHeader.MIME_VERSION;
 import static io.github.taodong.mail.dkim.StandardMessageHeader.TO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -76,5 +78,22 @@ class DkimMimeMessageHelperTest {
         assertTrue(result.get(1).required());
         assertFalse(result.get(7).required());
         assertTrue(result.get(8).required());
+    }
+
+    @Test
+    void getKPCS8KeyFromInputStream() throws IOException, DkimSigningException {
+        var classLoader = getClass().getClassLoader();
+        try (var input = classLoader.getResourceAsStream("keys/test_key.pem")) {
+            var key = dkimMimeMessageHelper.getKPCS8KeyFromInputStream(input);
+            assertEquals("RSA", key.getAlgorithm());
+        }
+    }
+
+    @Test
+    void getKPCS8KeyFromInputStream_InvalidKey() throws IOException {
+        var classLoader = getClass().getClassLoader();
+        try (var input = classLoader.getResourceAsStream("keys/test_key.pub")) {
+            assertThrows(DkimSigningException.class, () -> dkimMimeMessageHelper.getKPCS8KeyFromInputStream(input));
+        }
     }
 }

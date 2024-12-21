@@ -22,6 +22,19 @@ import java.util.List;
 
 public class DkimSigningService {
 
+    /**
+     * Generate unfolded DKIM signature header value. This value should be the last header value introduced into message before sending.
+     * @param message - message to sign
+     * @param dkimPrivateKey - private key to sign the message
+     * @param selector - selector to sign
+     * @param domain - domain to sign
+     * @param identity - identity to sign
+     * @param headers - headers to sign, you can use {@link DkimMimeMessageHelper#getDkimSignHeaders(List)} to manage the headers
+     * @param headerCanonicalization - header canonicalization method, when null, use {@link Canonicalization#SIMPLE}
+     * @param bodyCanonicalization - body canonicalization method, when null, use {@link Canonicalization#SIMPLE}
+     * @return the DKIM signature header value unfolded
+     * @throws DkimSigningException when failed to sign the message
+     */
     public String sign(@NotNull MimeMessage message, @NotNull RSAPrivateKey dkimPrivateKey,
                        @NotBlank String selector, @NotBlank String domain,
                        @NotBlank String identity, @NotEmpty List<DkimSignHeader> headers,
@@ -99,15 +112,17 @@ public class DkimSigningService {
             canonicalization = Canonicalization.SIMPLE;
         }
 
-        try (var input = message.getInputStream()){
+        try (var input = message.getInputStream()) {
             var body = MimeUtility.getBytes(input);
             var bodyString = new String(body, StandardCharsets.UTF_8);
             var canonicalBody = canonicalization.getBodyOperator().apply(bodyString);
             var hashed = MessageDigest.getInstance("SHA-256").digest(canonicalBody.getBytes(StandardCharsets.UTF_8));
             return base64Encode(hashed);
+
         } catch (IOException | MessagingException | NoSuchAlgorithmException e) {
             throw new DkimSigningException("Failed to hash message body.", e);
         }
+
 
     }
 

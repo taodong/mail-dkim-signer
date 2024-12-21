@@ -43,4 +43,32 @@ class DkimSignatureTest {
         assertEquals("rsa-sha256", signature.getTagValue(HeaderTag.ALGORITHM));
         assertNull(signature.getTagValue(HeaderTag.DOMAIN));
     }
+
+    @Test
+    void getBeforeHashValue() throws DkimSigningException {
+        DkimSignature signature = new DkimSignature();
+        signature.addTagValue(HeaderTag.DOMAIN, "duotail.com");
+        signature.addTagValue(HeaderTag.CANONICALIZATION, "relaxed/simple");
+        signature.addTagValue(HeaderTag.USERNAME, "tao.dong@duotail.com");
+        signature.addTagValue(HeaderTag.SELECTOR, "selector1");
+        signature.addTagValue(HeaderTag.HEADERS, "from:to:subject");
+        signature.addTagValue(HeaderTag.BODY_HASH, "hash");
+
+        String expected = "v=1; a=rsa-sha256; d=duotail.com; c=relaxed/simple; i=tao.dong@duotail.com; s=selector1; h=from:to:subject; bh=hash";
+        assertEquals(expected, signature.getBeforeHashValue());
+    }
+
+    @Test
+    void getBeforeHashValue_missingTagValue() {
+        DkimSignature signature = new DkimSignature();
+        signature.addTagValue(HeaderTag.DOMAIN, "duotail.com");
+        signature.addTagValue(HeaderTag.CANONICALIZATION, "relaxed/simple");
+        signature.addTagValue(HeaderTag.USERNAME, "tao.dong@duotail.com");
+        signature.addTagValue(HeaderTag.SELECTOR, "selector1");
+        signature.addTagValue(HeaderTag.HEADERS, "from:to:subject");
+
+        assertThrows(DkimSigningException.class, signature::getBeforeHashValue);
+    }
+
+
 }

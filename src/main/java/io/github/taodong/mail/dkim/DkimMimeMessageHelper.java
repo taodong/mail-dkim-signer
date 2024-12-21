@@ -1,9 +1,21 @@
 package io.github.taodong.mail.dkim;
 
+import jakarta.validation.constraints.NotNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -60,6 +72,17 @@ public class DkimMimeMessageHelper {
         removeIgnoredHeaders(headers, ignoredHeaders);
 
         return headers;
+    }
+
+    public RSAPrivateKey getKPCS8KeyFromInputStream(@NotNull InputStream keyStream) throws DkimSigningException {
+        try (final var reader = new BufferedReader(new InputStreamReader(keyStream, StandardCharsets.US_ASCII))) {
+            var rawKey = reader.lines().filter(line -> !line.startsWith("-----")).reduce(String::concat).orElseThrow();
+            var rsaKeyFactory = KeyFactory.getInstance("RSA");
+            var privateKeySpec = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(rawKey));
+            return (RSAPrivateKey) rsaKeyFactory.generatePrivate(privateKeySpec);
+        } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new DkimSigningException("Failed to read private key from input stream", e);
+        }
     }
 
     private List<DkimSignHeader> combineCustomerHeaders(List<DkimSignHeader> customHeaders) {
