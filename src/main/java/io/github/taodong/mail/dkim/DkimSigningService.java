@@ -35,6 +35,7 @@ public class DkimSigningService {
      * @return the DKIM signature header value unfolded
      * @throws DkimSigningException when failed to sign the message
      */
+    @SuppressWarnings("java:S107") // Suppress "Methods should not have too many parameters" for this method
     public String sign(@NotNull MimeMessage message, @NotNull RSAPrivateKey dkimPrivateKey,
                        @NotBlank String selector, @NotBlank String domain,
                        @NotBlank String identity, @NotEmpty List<DkimSignHeader> headers,

@@ -33,7 +33,6 @@ import java.util.Properties;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.params.provider.Arguments.argumentSet;
 
@@ -51,7 +50,7 @@ class DkimSigningServiceTest {
         argumentSet("Empty message",
                 createTestMessage("tao.dong@duotail.com", "test@gmail.com", "Empty Body", ""),
                 "s1", "duotail.com", "tao.dong@duotail.com", null, null,
-                "v=1; a=rsa-sha256; d=duotail.com; c=simple/simple; i=tao.dong@duotail.com; s=s1; h=From:To:Subject:Date; bh=frcCV1k9oG9oKj3dpUqdJg1PxRT2RSN/XKdLCPjaYaY=; b=ccNCpe/IpUpCeGuAJdi6PJM6HIhN96ROkxElGJY0XQg7f1RHvN9hC3Prqse9q00VcULhCGErm5Lf7qvIWSDYSY4oG/xKEAE2+ak8z6qZg7xq5r+33UHMzp6d8aPu4om2bdwE+pSUIF4TuODD4IHPEVFN+hAlfc9S2XDbwZGVW2ViTMBGXPQcxXamJ9Xn9yP2ho5IYgHfzg4wkBK9++6w35NFz7ifoxUxRtbsS7hiK6k8tg43ysFKt66ZarxyG6kVyv2Nq8knpcgzHJANABi5eD7NOdQ0u8/6WZOvvw1QvEauDsKOpbWj/ONAhJ5dIXCaeEri1bwRTu3dvAbCCdA8yg==")
+                "v=1; a=rsa-sha256; d=duotail.com; c=simple/simple; i=tao.dong@duotail.com; s=s1; h=From:To:Subject:Date; bh=frcCV1k9oG9oKj3dpUqdJg1PxRT2RSN/XKdLCPjaYaY=; b=")
     );
 
 
@@ -67,8 +66,8 @@ class DkimSigningServiceTest {
 
         System.out.println(result);
 
-        assertEquals(expected, result);
-        assertTrue(validateSignature(message, expected, headerCanonicalization == null ? Canonicalization.SIMPLE : headerCanonicalization));
+        assertTrue(result.startsWith(expected));
+        assertTrue(validateSignature(message, result, headerCanonicalization == null ? Canonicalization.SIMPLE : headerCanonicalization));
     }
 
     private boolean validateSignature(MimeMessage message, String dkimToken, Canonicalization headerCanonicalization)
