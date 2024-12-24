@@ -14,4 +14,12 @@ class DkimSignHeaderTest {
         assertEquals(header1.hashCode(), header2.hashCode());
     }
 
+    @Test
+    void testNotEqual() {
+        DkimSignHeader header1 = new DkimSignHeader("From");
+        DkimSignHeader header2 = new DkimSignHeader("To");
+        assertNotEquals(null, header1);
+        assertNotEquals(header1, header2);
+    }
+
 }
