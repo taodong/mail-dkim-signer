@@ -50,7 +50,38 @@ class DkimSigningServiceTest {
         argumentSet("Empty message",
                 createTestMessage("tao.dong@duotail.com", "test@gmail.com", "Empty Body", ""),
                 "s1", "duotail.com", "tao.dong@duotail.com", null, null,
-                "v=1; a=rsa-sha256; d=duotail.com; c=simple/simple; i=tao.dong@duotail.com; s=s1; h=From:To:Subject:Date; bh=frcCV1k9oG9oKj3dpUqdJg1PxRT2RSN/XKdLCPjaYaY=; b=")
+                "v=1; a=rsa-sha256; d=duotail.com; c=simple/simple; i=tao.dong@duotail.com; s=s1; h=From:To:Subject:Date; bh=frcCV1k9oG9oKj3dpUqdJg1PxRT2RSN/XKdLCPjaYaY=; b="),
+        argumentSet("Random string message",
+                createTestMessage("tao.dong1@duotail.com", "test1@gmail.com", "Random String",
+                        """
+                                2mLTGnlOh99hofrl74daqtyAK6BbZ8HXcFupX19kIveOaOIwY0XKsRUDAxZ4g810iTXnIB1ouXwabgDSMER0Y
+                                  o9qUM00tl64g9khiJgxAkEaGfRlo5JAPt2j1xSfzvAOXIT0BmkTwCM2I6zYm7N9ZzmF9tGtrxXSq28mLK8vDY6fLixb3Iw8s
+                                  JLsW4qS2AiG7LSnC2yAcqGLTlVd9J
+                              """),
+                "s2", "duotail.com", "tao.dong1@duotail.com", Canonicalization.RELAXED, Canonicalization.RELAXED,
+                "v=1; a=rsa-sha256; d=duotail.com; c=relaxed/relaxed; i=tao.dong1@duotail.com; s=s2; h=From:To:Subject:Date; bh=09fALaVrZwJFqxnBCzhWsPpCxjs6VthdsZTkQPMGW34=; b="),
+            argumentSet("Random text message",
+                    createTestMessage("tao.dong@duotail.com", "helloworld@example.com", "Random Text",
+                            """
+                                    pyroxenic palmanesthesia Sterlitamak planaru rethresher unmutable Korbel earnful deep-settled tetricity cymbaeform Endamoebidae eringo nonoxidizable thimbleriggery unclassifying nontinted tubbier emcees Ellette periuterine nonpossession nonnant narratable wile inguilty mugger oligocholia down-hip bedismal grouthead musal stepuncle lysolecithin turn-up defrication free-minded crispers unmottled high-class Mirana haybird blood-bedabbled jostles USR Niota petiolated Virgin Eurymus declinometer stoutens do-si-do Kuth Valentines garbage waist's lemnisnisci engagers maxilliform beray demivol hyperthrombinemia technologist Guesde Sarothra wheelhouse Gallus Elene condolingly Bretschneideraceae retaliate evejar cosmozoans tethered pokerishness closest agonistics\s
+                                                                     enabling wraxled self-consistently up-trending supermodestly retd.\s
+                                                                     tacho- bradyphrenia crea valise mian oracle's Bertsche untacks bioscopic wrig eclaircise screwdrivers aliet wiltproof\s
+                                                                     winter-damaged relitigating Tontogany Cynara Hyphaene forcedness Altai resigns nonreflectively chuumnapm goatstone\s
+                                                                     full-edged solderability oxysalts successive ambiens vectorizing Nevile cholate bradyesthesia recouples farmerly latherin\s
+                                                                     wishingly Ikara Daveda ganoin poled intermental QST bespray gasoscope cardholders unthrown Anchistopoda\s
+                                                                     ill-affectedness salicine epiphanous full-power stock-route technologist unpredaceously Sandon scombroidean classicistic superambitious Sacul vivandire outmanning pullup soccers Cherkess couldn schematising capability unduke duodecennial tweedle- croquets calcaneoplantar jubilees unconnectedly tracheloscapular graphologic many-hued pseudorhombohedral re-proved Jacalin pantamorphic slopperies riata crocks mewled supermodern schnooks Stanislawow photo-offset maintain acerbly etatisme Feliciana monobromacetone confraternization self-performed tharms Erenburg leukocytes coved monotypes commodate Bonpa Gyroceras peddlingly decastich reboation pauropod zoarcidae objects ruddling thunderlight daintinesses FEDSIM preimbuing muddleproof ripidolite pied-a-terre sharp-eye revestry hydropsy bunco picaresque Jimmy afore-quoted draughtier amphicarpogenous ringite ulceromembranous craniologically prosyndicalist moulage adored tricolon auctary unanecdotal doncy pretranslated motioners germinant seacunny scowman nine-pounder wisdom-given facebow Graphidiaceae repassage nonreligiously schnozzola Josef farrago rachitis decametre monotypous Sellersburg destabilizing multipinnate smoking-room toxemias mesorchial Pycnanthemum constative disjaskit rate-setting executrixship Tezcucan quasi-hereditary anthophyte hell-vine unturpentined chemotaxonomist glyoxalin N.C. awatch insooth fronton inbbred unschooled redissolving fuguelike forgone repertorial investitor afikomen designates imitatorship reperceiving Post-triassic cadie figurize interepimeral Oscilight trouserdom currance phages Mellers pampootee avant- Izzak tat-tat-tat baldies Wassermann dreidl Gable veloce lacrimatories\s
+                                                                     glyptography connotive almanac's Ponselle trammed overrace specialist herried nephrotomy emusifying potlatching preseparated endgame stoppableness gnarled unfix sporter Dalmatic mousiest heliotropine invertebral calabash unvulturous anacamptics steel-trap self-repression shickered invigilating old-fangled aliquid excepts gynandries pressurizes Stanislawow overboil entotic laodah Tellina unfrayed Ryunosuke astel retypes bombardments dravya commove ridgelet Numerische woodworks quasi-humanly miscategorize nonobjectivity physics strait-chested sore-footed Macao kicking-horses dork styleless assassinates Braselton obligativeness benthal unarted santalin platyodont Schmitt interzygapophysial thegnland naitly Adila televisions unadmissibly salvaged preeliminator wheam travel-spent anthranil yerbas algological niggered buckwashing mangels ultrainvolved Housum Yeagertown
+                                  """),
+                    "s2", "duotail.com", "tao.dong1@duotail.com", Canonicalization.RELAXED, Canonicalization.SIMPLE,
+                    "v=1; a=rsa-sha256; d=duotail.com; c=relaxed/simple; i=tao.dong1@duotail.com; s=s2; h=From:To:Subject:Date; bh=ytCDm4FERTTerXZx0x6mnltNI4QLhSv8HclnJSA+3BM=; b="),
+            argumentSet("Random Unicode text message",
+                    createTestMessage("tao.dong@duotail.com", "helloworld@example.com", "Unicode Text",
+                            """
+                                    𢜕𡚃栙𣔌ル𡩘𨪕𩪜𦢕拏𨲨視닼晳𬭃𨼃𪂠𗜹𡸠뼢瀻𐨐𦀏𗢎𥯍𦽁𭐁䄟슋𫏲玡땯朥ᯃ賷𘂛秀𧍺ѱ𰬆㽚𡾥繜톙砲裙𛆼顚㼃ำ몹𦥶𥜧𥪪𢢶梴𦢴𐞠𢮩僙쿃𗈰𖭿𐔿𗱘ডಡ直𢄼𮦰ᘜ婡𱂙첖𐑗눁噺苈엚䧒𓋌牞뻗𫵥𣓬𮤛𥐝ⴗ𭵊𘏈𠞂崩𫵢𬟖匈𮉎𠩮𩋒𩋝𡇁𤿎𐞋𛰤𪙒𧑢𘈶𓎗𡼱𡫫𠣎窙儘𣻂㛺𣄝𨌀𣈌𑶂𩠳뫛𝝺잢鳩𨷋ꖌ𐦲𢣩金𰊓丅𡣝뎺𢺷𪁺𒈃遅瓥𩹞玮𤨆犱𣅤ꙗ𰖏𛈉𧄡
+                                      橢𩲆榗𫇴逺𫲧Ῥ𪦮呢𝟀㟞𐚎䩥秡𭼿𫐊𝖬𪿫𭙉듌𪘩蜚𐚕㹷賷ꤋ黮𨍨𨪡𡆢좀𡫙媋𰿹꣔ꪤ𦪆懷𰜔맿𑇔𩖷𧭸𢕻𭤹𠱻矘𢐒𥡸𗹵𦆻𮆳𫵙㺂𫞣𩷕𪌂僱𒅭혁땕뫷𬋁Ĝ赋𘘵𡧦撁𦗁𲆡艪𤾺瓤䋫橇龜𮮘椫𒁅ࢎ𧚁鋢ᴛ𐲤ᛑ𣲵𓊂捩㴅𮐔걙𩜐𗃼찷𰦈𗢂鹱𐓆蚐𬺶𩕟𰧩𬫬𬀉𗊒𦳤𦻧𦄆𗽱𢇍ꢩ𣈼ퟞ
+                                  """),
+                    "s2", "duotail.com", "tao.dong1@duotail.com", Canonicalization.SIMPLE, Canonicalization.RELAXED,
+                    "v=1; a=rsa-sha256; d=duotail.com; c=simple/relaxed; i=tao.dong1@duotail.com; s=s2; h=From:To:Subject:Date; bh=7e9mRL3dHlkI+e6LLx7tHmdiKg1GQAD49R7Qg9TL17Q=; b=")
     );
 
 

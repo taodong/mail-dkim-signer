@@ -1,0 +1,6 @@
+name: "test-plan"
+dialect: "general"
+schema: "test"
+data:
+  - entity: "random_text"
+    count: 1

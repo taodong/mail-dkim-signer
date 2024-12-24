@@ -1,0 +1,34 @@
+name: test
+entities:
+  - name: "random_text"
+    properties:
+      - name: "id"
+        type: "sequence"
+        index:
+          id: 0
+      - name: "en_str"
+        type: "text"
+        constraints:
+          - type: "size"
+            min: 100
+            max: 500
+      - name: "en_txt"
+        type: "text"
+        constraints:
+          - type: "category"
+            name: "text"
+          - type: "size"
+            min: 100
+            max: 500
+      - name: "cjk_chars"
+        type: "text"
+        constraints:
+          - type: "char_group"
+            groups:
+              - "ea_cjk_a"
+              - "digits"
+              - "letters"
+          - type: "size"
+            min: 100
+            max: 500
+    
