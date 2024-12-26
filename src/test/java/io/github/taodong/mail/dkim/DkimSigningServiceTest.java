@@ -6,6 +6,7 @@ import jakarta.mail.internet.MimeMessage;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.FieldSource;
@@ -33,8 +34,12 @@ import java.util.Properties;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
 
+import static io.github.taodong.mail.dkim.StandardMessageHeader.CONTENT_TYPE;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.params.provider.Arguments.argumentSet;
+import static org.mockito.Mockito.mock;
 
 class DkimSigningServiceTest {
 
@@ -99,6 +104,25 @@ class DkimSigningServiceTest {
 
         assertTrue(result.startsWith(expected));
         assertTrue(validateSignature(message, result, headerCanonicalization == null ? Canonicalization.SIMPLE : headerCanonicalization));
+    }
+
+    @Test
+    void sign_missingRequiredHeader() {
+        var message = createTestMessage("tao.dong@duotail.com", "test@gmail.com", "Empty Body", "");
+        var headers = dkimMimeMessageHelper.getDkimSignHeaders(List.of(new DkimSignHeader(CONTENT_TYPE.getKey(), true)));
+        var exception = assertThrows(DkimSigningException.class, () -> dkimSigningService.sign(message, testKey, "test", "duotail.com", "tao.dong@duotail.com",
+                headers, null, null));
+
+        assertEquals("Required header Content-Type is missing.", exception.getMessage());
+    }
+
+    @Test
+    void sign_badKey() {
+        var message = createTestMessage("tao.dong@duotail.com", "test@gmail.com", "Empty Body", "");
+        var exception = assertThrows(DkimSigningException.class, () -> dkimSigningService.sign(message, mock(RSAPrivateKey.class), "test", "duotail.com", "tao.dong@duotail.com",
+                dkimMimeMessageHelper.getDkimSignHeaders(null), null, null));
+
+        assertEquals("Failed to create signature.", exception.getMessage());
     }
 
     private boolean validateSignature(MimeMessage message, String dkimToken, Canonicalization headerCanonicalization)
