@@ -74,6 +74,12 @@ public class DkimMimeMessageHelper {
         return headers;
     }
 
+    /**
+     * Get the private key from input stream
+     * @param keyStream - the input stream of the private key
+     * @return the RSA private key
+     * @throws DkimSigningException when failed to read the private key
+     */
     public RSAPrivateKey getKPCS8KeyFromInputStream(@NotNull InputStream keyStream) throws DkimSigningException {
         try (final var reader = new BufferedReader(new InputStreamReader(keyStream, StandardCharsets.US_ASCII))) {
             var rawKey = reader.lines().filter(line -> !line.startsWith("-----")).reduce(String::concat).orElseThrow();
