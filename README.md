@@ -17,8 +17,9 @@ In this project I want to achieve a single goal: generate a DKIM signature heade
 ## Limitations
 The following limitations are known:
 - The signer is tested only for [jakarta.mail.internet.MimeMessage](https://jakartaee.github.io/mail-api/docs/api/jakarta.mail/jakarta/mail/internet/MimeMessage.html).
-- Tags included in the signature are fixed as `v`, `a`, `b`, `bh`, `c`, `d`, `h`, `i`, `s`
-- Private key has to be a `rsa-shha256` key
+- Tags included in the signature are fixed as `v`, `a`, `b`, `bh`, `c`, `d`, `h`, `i`, `s`.
+- Private key has to be a `rsa-shha256` key.
+- The jar file requires Java 21 or later.
 
 ## Usage
 `DkimSigningService` is the class to be used to generate the value of `DKIM-Signature` header. A sample usage is as follows:
@@ -66,7 +67,15 @@ public String sign(@NotNull MimeMessage message, @NotNull RSAPrivateKey dkimPriv
 You can use `DkimMimeMessageHelper` to prepare data needed for `DkimSigningService`. 
 
 #### Header Management
-`DkimMimeMessageHelper` has two overloaded methods `getDkimSignHeaders` to manage headers to sign.  
+`DkimSigningService.sign()` method requires a list of `DkimSignHeader`, which defined as below, to sign.
+The signing process will fail if the header marked as required is not `found` in the message.
+
+```java
+public record DkimSignHeader(@NotBlank String name, boolean required) {}
+```
+
+`DkimMimeMessageHelper` has two overloaded methods `getDkimSignHeaders` to manage headers to sign.
+
 ```java
 /**
  * Get the headers to be signed. All the header name are case-sensitive.
@@ -89,9 +98,30 @@ public List<DkimSignHeader> getDkimSignHeaders(List<DkimSignHeader> customHeader
     // implementation
 }
 ```
+For simple usage, `getDkimSignHeaders(null)` can be used to inform the service to sign the following headers:
+- From
+- To
+- Subject
+- Date
+- Cc
+- Content-Type
+- Reply-To
+- Message-ID
+- List-Unsubscribe
+- List-Unsubscribe-Post
+
+To add extra headers, you can put them in a list and pass it into the method for example to sign `X-My-Header`:
+```java
+getDkimSignHeaders(List.of(new DkimSignHeader("X-My-Header", false)));
+```
+To remove headers from the default list, you can put them in a set and pass it into the overloaded method for example to remove `Cc`:
+```java
+getDkimSignHeaders(null, Set.of("Cc"));
+```
 
 #### Load Private Key
-`DkimMimeMessageHelper` has a method `loadPrivateKey` to load private key from an input stream.
+`DkimMimeMessageHelper` has a method `loadPrivateKey` to load private key from an input stream. 
+The method is able to remove start and end line of the key, remove line breaks and apply base64 decoding for an input. 
 ```java
 /**
      * Get the private key from input stream
@@ -103,3 +133,6 @@ public List<DkimSignHeader> getDkimSignHeaders(List<DkimSignHeader> customHeader
         // implementation
     }
 ```
+
+## License
+This project is licensed under the Apache-2.0 license - see the [LICENSE](https://github.com/taodong/mail-dkim-signer?tab=Apache-2.0-1-ov-file#readme) file for details.
