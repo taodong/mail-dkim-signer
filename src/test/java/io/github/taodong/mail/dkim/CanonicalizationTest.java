@@ -49,7 +49,7 @@ class CanonicalizationTest {
     }
 
     @SuppressWarnings("unused")
-    static List<Arguments> headerTestCases = List.of(
+    private final static List<Arguments> headerTestCases = List.of(
             arguments(Canonicalization.SIMPLE, "Subject", "test", "subject:test"),
             arguments(Canonicalization.SIMPLE, "Subject", "test subject", "subject:test subject"),
             arguments(Canonicalization.SIMPLE, "Subject", "test  subject", "subject:test subject"),
@@ -62,6 +62,22 @@ class CanonicalizationTest {
     @FieldSource("headerTestCases")
     void testHeaderOperator(Canonicalization canonicalization, String header, String value, String expected) {
         assertEquals(expected, canonicalization.getHeaderOperator().apply(header, value));
+    }
+
+    @SuppressWarnings("unused")
+    private final static List<Arguments> fromTypeTestCases = List.of(
+            arguments("simple", Canonicalization.SIMPLE),
+            arguments("relaxed", Canonicalization.RELAXED),
+            arguments("SIMPle", Canonicalization.SIMPLE),
+            arguments("RELAXED", Canonicalization.RELAXED),
+            arguments(null, Canonicalization.SIMPLE),
+            arguments("unknown", Canonicalization.SIMPLE)
+    );
+
+    @ParameterizedTest
+    @FieldSource("fromTypeTestCases")
+    void testFromType(String type, Canonicalization expected) {
+        assertEquals(expected, Canonicalization.fromType(type));
     }
 
 }

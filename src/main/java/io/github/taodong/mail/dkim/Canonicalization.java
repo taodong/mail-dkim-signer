@@ -79,4 +79,18 @@ public enum Canonicalization {
         this.bodyOperator = bodyOperator;
         this.headerOperator = headerOperator;
     }
+
+    /**
+     * Get the canonicalization algorithm by type
+     * @param type - the type of canonicalization algorithm
+     * @return the canonicalization algorithm, simple if not matched
+     */
+    public static Canonicalization fromType(String type) {
+        for (Canonicalization c : Canonicalization.values()) {
+            if (StringUtils.equalsIgnoreCase(c.getType(), type)) {
+                return c;
+            }
+        }
+        return Canonicalization.SIMPLE;
+    }
 }
