@@ -28,8 +28,10 @@ The following limitations are known:
 try {
     var message = new MimeMessage(session);
     var signingService = new DkimSigningService();
-    var dkimSignature = signingService.sign(message, yourPrivateKey, yourSelector, yourDomain, yourIdentity,
-        yourheaderList, headerCanonicalization, bodyCanonicalization);
+    var dkimSignature = signingService.sign(message, yourPrivateKey, 
+            yourSelector, yourDomain, 
+            yourIdentity, yourheaderList, 
+            headerCanonicalization, bodyCanonicalization);
     message.setHeader(DkimSignature.DKIM_SIGNATURE_HEADER, dkimSignature);
     Transport.send(message);
     
