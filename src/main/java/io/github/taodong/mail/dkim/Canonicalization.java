@@ -33,7 +33,7 @@ public enum Canonicalization {
 
                     return body;
                 },
-            (header, value) -> header.trim().toLowerCase() + ":" + value.replaceAll("\\s+", " ").trim()
+            (header, value) -> header + ": " + value
     ),
     RELAXED("relaxed",
             body ->  {
@@ -67,7 +67,7 @@ public enum Canonicalization {
                 return body;
 
             },
-            (header, value) -> header + ":" + value
+            (header, value) -> header.trim().toLowerCase() + ":" + value.replaceAll("\\s+", " ").trim()
     );
 
     private final String type;

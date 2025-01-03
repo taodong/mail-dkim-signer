@@ -34,6 +34,7 @@ import java.util.Properties;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
 
+import static io.github.taodong.mail.dkim.StandardMessageHeader.CC;
 import static io.github.taodong.mail.dkim.StandardMessageHeader.CONTENT_TYPE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -86,7 +87,11 @@ class DkimSigningServiceTest {
                                       橢𩲆榗𫇴逺𫲧Ῥ𪦮呢𝟀㟞𐚎䩥秡𭼿𫐊𝖬𪿫𭙉듌𪘩蜚𐚕㹷賷ꤋ黮𨍨𨪡𡆢좀𡫙媋𰿹꣔ꪤ𦪆懷𰜔맿𑇔𩖷𧭸𢕻𭤹𠱻矘𢐒𥡸𗹵𦆻𮆳𫵙㺂𫞣𩷕𪌂僱𒅭혁땕뫷𬋁Ĝ赋𘘵𡧦撁𦗁𲆡艪𤾺瓤䋫橇龜𮮘椫𒁅ࢎ𧚁鋢ᴛ𐲤ᛑ𣲵𓊂捩㴅𮐔걙𩜐𗃼찷𰦈𗢂鹱𐓆蚐𬺶𩕟𰧩𬫬𬀉𗊒𦳤𦻧𦄆𗽱𢇍ꢩ𣈼ퟞ
                                   """),
                     "s2", "duotail.com", "tao.dong1@duotail.com", Canonicalization.SIMPLE, Canonicalization.RELAXED,
-                    "v=1; a=rsa-sha256; d=duotail.com; c=simple/relaxed; i=tao.dong1@duotail.com; s=s2; h=From:To:Subject:Date; bh=7e9mRL3dHlkI+e6LLx7tHmdiKg1GQAD49R7Qg9TL17Q=; b=")
+                    "v=1; a=rsa-sha256; d=duotail.com; c=simple/relaxed; i=tao.dong1@duotail.com; s=s2; h=From:To:Subject:Date; bh=7e9mRL3dHlkI+e6LLx7tHmdiKg1GQAD49R7Qg9TL17Q=; b="),
+            argumentSet("Internet From address message",
+                    createTestMessage("Tao Dong<tao.dong@duotail.com>", "test@gmail.com", "From with Internet Address", "test, test"),
+                    "s1", "duotail.com", "tao.dong@duotail.com", null, null,
+                    "v=1; a=rsa-sha256; d=duotail.com; c=simple/simple; i=tao.dong@duotail.com; s=s1; h=From:To:Subject:Date; bh=JHZ+WvxL+ZKSIetNJw7x2yrW/qbgALOp+gvoXsDe8Og=; b=")
     );
 
 

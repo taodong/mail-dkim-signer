@@ -50,12 +50,12 @@ class CanonicalizationTest {
 
     @SuppressWarnings("unused")
     private final static List<Arguments> headerTestCases = List.of(
-            arguments(Canonicalization.SIMPLE, "Subject", "test", "subject:test"),
-            arguments(Canonicalization.SIMPLE, "Subject", "test subject", "subject:test subject"),
-            arguments(Canonicalization.SIMPLE, "Subject", "test  subject", "subject:test subject"),
-            arguments(Canonicalization.RELAXED, "Subject", "test", "Subject:test"),
-            arguments(Canonicalization.RELAXED, "Subject", "test Subject", "Subject:test Subject"),
-            arguments(Canonicalization.RELAXED, "Subject", "test  Subject", "Subject:test  Subject")
+            arguments(Canonicalization.SIMPLE, "Subject", "test", "Subject: test"),
+            arguments(Canonicalization.SIMPLE, "Subject", "test subject", "Subject: test subject"),
+            arguments(Canonicalization.SIMPLE, "Subject", "test  subject", "Subject: test  subject"),
+            arguments(Canonicalization.RELAXED, "Subject", "test", "subject:test"),
+            arguments(Canonicalization.RELAXED, "Subject", "test Subject", "subject:test Subject"),
+            arguments(Canonicalization.RELAXED, "Subject", "test  Subject", "subject:test Subject")
     );
 
     @ParameterizedTest
