@@ -34,7 +34,6 @@ import java.util.Properties;
 import java.util.TimeZone;
 import java.util.stream.Collectors;
 
-import static io.github.taodong.mail.dkim.StandardMessageHeader.CC;
 import static io.github.taodong.mail.dkim.StandardMessageHeader.CONTENT_TYPE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
