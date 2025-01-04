@@ -34,8 +34,6 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifactErrorsFailBuild: true
-          artifacts: "${{ github.workspace }}/conjurer-shell/target/data-conjurer-*.jar"
-          bodyFile: "${{ github.workspace }}/release.md"
       - name: Publish to Maven Central
         run: |
           mvn \
