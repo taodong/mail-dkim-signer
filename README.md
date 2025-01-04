@@ -135,7 +135,7 @@ The method is able to remove start and end line of the key, remove line breaks a
 ```
 
 ## Issues and Supports
-Because I use `simple/simple` conanicalization only, I didn't perform end-to-end test for signing with `relax` method. 
+Because my host server is configured to use `simple/simple` conanicalization only, I didn't perform end-to-end test for signing with `relax` method. 
 If you encounter any issues or need more features, please feel free to open an issue in the [issue tracker](https://github.com/taodong/mail-dkim-signer/issues).
 
 ## License
