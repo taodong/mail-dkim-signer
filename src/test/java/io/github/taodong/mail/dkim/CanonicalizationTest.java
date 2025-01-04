@@ -49,7 +49,7 @@ class CanonicalizationTest {
     }
 
     @SuppressWarnings("unused")
-    private final static List<Arguments> headerTestCases = List.of(
+    private static final List<Arguments> headerTestCases = List.of(
             arguments(Canonicalization.SIMPLE, "Subject", "test", "Subject: test"),
             arguments(Canonicalization.SIMPLE, "Subject", "test subject", "Subject: test subject"),
             arguments(Canonicalization.SIMPLE, "Subject", "test  subject", "Subject: test  subject"),
@@ -65,7 +65,7 @@ class CanonicalizationTest {
     }
 
     @SuppressWarnings("unused")
-    private final static List<Arguments> fromTypeTestCases = List.of(
+    private static final List<Arguments> fromTypeTestCases = List.of(
             arguments("simple", Canonicalization.SIMPLE),
             arguments("relaxed", Canonicalization.RELAXED),
             arguments("SIMPle", Canonicalization.SIMPLE),
