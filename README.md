@@ -1,5 +1,3 @@
-# Under Development!!!
-
 # mail-dkim-signer
 [![CI](https://github.com/taodong/mail-dkim-signer/actions/workflows/ci.yml/badge.svg)](https://github.com/taodong/mail-dkim-signer/actions/workflows/ci.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=taodong_mail-dkim-signer&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=taodong_mail-dkim-signer)
@@ -135,6 +133,10 @@ The method is able to remove start and end line of the key, remove line breaks a
         // implementation
     }
 ```
+
+## Issues and Supports
+Because I use `simple/simple` conanicalization only, I didn't perform end-to-end test for signing with `relax` method. 
+If you encounter any issues or need more features, please feel free to open an issue in the [issue tracker](https://github.com/taodong/mail-dkim-signer/issues).
 
 ## License
 This project is licensed under the Apache-2.0 license - see the [LICENSE](https://github.com/taodong/mail-dkim-signer?tab=Apache-2.0-1-ov-file#readme) file for details.
