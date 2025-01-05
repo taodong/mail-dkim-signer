@@ -37,6 +37,7 @@ jobs:
       - name: Publish to Maven Central
         run: |
           mvn \
+            --settings /home/runner/.m2/settings.xml \
             --no-transfer-progress \
             --batch-mode \
             deploy

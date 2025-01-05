@@ -104,8 +104,6 @@ class DkimSigningServiceTest {
                 dkimMimeMessageHelper.getDkimSignHeaders(null),
                 headerCanonicalization, bodyCanonicalization);
 
-        System.out.println(result);
-
         assertTrue(result.startsWith(expected));
         assertTrue(validateSignature(message, result, headerCanonicalization == null ? Canonicalization.SIMPLE : headerCanonicalization));
     }
