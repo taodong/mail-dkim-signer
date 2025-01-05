@@ -2,6 +2,8 @@
 [![CI](https://github.com/taodong/mail-dkim-signer/actions/workflows/ci.yml/badge.svg)](https://github.com/taodong/mail-dkim-signer/actions/workflows/ci.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=taodong_mail-dkim-signer&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=taodong_mail-dkim-signer)
 [![codecov](https://codecov.io/gh/taodong/mail-dkim-signer/graph/badge.svg?token=ME6HTXFS7A)](https://codecov.io/gh/taodong/mail-dkim-signer)
+[![Maven Central](https://img.shields.io/badge/Maven_Central-1.0.0-blue)](https://repo1.maven.org/maven2/io/github/taodong/mail-dkim-signer/1.0.0/)
+[![javadoc](https://javadoc.io/badge2/io.github.taodong/mail-dkim-signer/javadoc.svg)](https://javadoc.io/doc/io.github.taodong/mail-dkim-signer)
 
 A simple Java email dkim signer
 
@@ -18,6 +20,17 @@ The following limitations are known:
 - Tags included in the signature are fixed as `v`, `a`, `b`, `bh`, `c`, `d`, `h`, `i`, `s`.
 - Private key has to be a `rsa-shha256` key.
 - The jar file requires Java 21 or later.
+
+## Installation
+The code is packaged into a jar file which can be downloaded through github release page or maven central repository. 
+For maven user, you can add the following dependency into your pom.xml file.
+```xml
+<dependency>
+    <groupId>io.github.taodong</groupId>
+    <artifactId>mail-dkim-signer</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
 
 ## Usage
 `DkimSigningService` is the class to be used to generate the value of `DKIM-Signature` header. A sample usage is as follows:
