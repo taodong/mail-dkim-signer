@@ -8,6 +8,7 @@
     <version>1.0.0</version>
     <name>mail-dkim-signer</name>
     <description>A singer to generate DKIM header value</description>
+    <url>https://github.com/taodong/mail-dkim-signer</url>
 
     <licenses>
         <license>
